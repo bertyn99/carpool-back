@@ -1,25 +1,21 @@
-const User = require("../db/model/user");
-const jwt = require("jsonwebtoken");
+import jwt from "fast-jwt";
 
 const verifyToken = async (req, res, next) => {
   try {
     const token = req.header("Authorization").replace("Bearer ", "");
     const decoded = jwt.verify(token, process.env.JWT_KEY);
-    const user = await User.findOne({
-      _id: decoded._id,
-      "tokens.token": token,
-    });
-    console.log(user);
+    // find user by id or email
+    /*  
     if (!user) {
       throw new Error();
-    }
+    } */
 
     req.token = token;
-    req.user = user;
+    /*  req.user = user; */
     next();
   } catch (e) {
     res.status(401).send({ error: "Please authenticate." });
   }
 };
 
-module.exports = verifyToken;
+export default verifyToken;

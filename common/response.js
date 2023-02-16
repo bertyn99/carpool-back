@@ -14,4 +14,4 @@ function errData(res, errMsg = "failed operation") {
   };
 }
 
-module.exports = { errorRes, successRes, errData };
+export { errorRes, successRes, errData };
