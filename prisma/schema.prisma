@@ -46,7 +46,7 @@ model Car {
 model Message {
   id      Int      @id @default(autoincrement())
   content String
-  date    DateTime
+  date    DateTime @default(now())
   user    User?    @relation(fields: [userId], references: [id], onDelete: NoAction, onUpdate: NoAction)
   userId  Int      @unique
   trip    Trip?    @relation(fields: [tripId], references: [id], onDelete: NoAction, onUpdate: NoAction)
