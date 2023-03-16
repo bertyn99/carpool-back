@@ -29,9 +29,17 @@ class UserModel{
                 email,
                 phone,
                 password
-            }});
+        }});
+        return updatedUser;
     }
-    async delete(id){}
+    async delete(id){
+        const deletedUser = await this.prisma.user.delete({
+            where:{
+                id
+            }
+        });
+        return deletedUser;
+    }
     async getUserById(id){
         const user = await this.prisma.user.findUnique({
             where:{
@@ -63,7 +71,8 @@ class UserModel{
             },
             include:{
                 trip: true
-            }});
+        }});
+        return trips;
     }
     async getUserTripsByStatus(id, status){
         const trips = await this.prisma.user.findMany({
@@ -74,7 +83,8 @@ class UserModel{
             },
             include:{
                 trip: true
-            }});
+        }});
+        return trips;
     }
     async getUserTripsByDate(id, date){
         const trips = await this.prisma.user.findMany({
@@ -84,13 +94,19 @@ class UserModel{
             },
             include:{
                 trip: true
-            }});
+        }});
+        return trips;
+    }  
+    async addCar(car){
+        const {nbPlate, color, model} = car;
+        const newCar = await this.prisma.car.create({
+            data:{
+                nbPlate,
+                color,
+                model
+        }});
+        return newCar;
     }
-
-   
-
-     
-
 }
 
 export default UserModel;
