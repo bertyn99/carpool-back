@@ -54,27 +54,46 @@ model Message {
 }
 
 model Trip {
-  id          Int         @id @default(autoincrement())
-  duree       String
-  departureId Int
-  date        DateTime
-  driver      User        @relation(fields: [userId], references: [id])
-  userId      Int         @unique
-  state       State       @default(SOON)
-  message     Message[]
-  passengers  UserTrips[]
+  id              Int         @id @default(autoincrement())
+  duree           String
+  start_address   Adress?     @relation("start", fields: [start_addressId], references: [id])
+  start_addressId Int?
+  end_address     Adress?     @relation("end", fields: [end_addressId], references: [id])
+  end_addressId   Int?
+  steps           Step[]
+  date            DateTime
+  driver          User        @relation(fields: [userId], references: [id])
+  userId          Int         @unique
+  state           State       @default(SOON)
+  message         Message[]
+  passengers      UserTrips[]
 
   @@index([userId])
+  @@index([start_addressId])
+  @@index([end_addressId])
 }
 
 model Adress {
-  id      Int     @id @default(autoincrement())
+  id      Int    @id @default(autoincrement())
   city    String
   zipCode Int
   street  String
   long    String
   lat     String
-  start   Boolean
+  Step    Step[]
+
+  start_trip Trip[] @relation("start")
+  end_Trip   Trip[] @relation("end")
+}
+
+model Step {
+  id       Int     @id @default(autoincrement())
+  adress   Adress? @relation(fields: [adressId], references: [id])
+  adressId Int?    @unique
+  Trip     Trip?   @relation(fields: [tripId], references: [id])
+  tripId   Int?
+
+  @@index([tripId])
 }
 
 model UserTrips {
