@@ -1,5 +1,5 @@
 import { includes } from "lodash";
-import prisma from "../../prisma/prisma";
+import prisma from "../../prisma/prisma.js";
 
 class TripsModel{
     constructor(){

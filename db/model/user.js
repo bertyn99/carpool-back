@@ -1,4 +1,4 @@
-import prisma from "../../prisma/prisma";
+import prisma from "../../prisma/prisma.js";
 
 class UserModel{
 
@@ -13,9 +13,15 @@ class UserModel{
                 name,
                 email,
                 phone,
-                password
+                password,
+            },
+            select:{
+              name:true,
+              email:true,
+              phone:true,
             }
         });
+        
         return newUser;
     }
     async update(id, user){
