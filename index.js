@@ -5,7 +5,7 @@ const app = express();
 import compression from "compression";
 import morgan from "morgan";
 import config from "./config.js";
-import { router as apiRouter } from "./route.js";
+import { router as apiAuthRouter } from "./routes/auth.js";
 
 app.use(urlencoded({ extended: true }));
 app.use(json());
@@ -20,7 +20,7 @@ app.use(function (req, res, next) {
   next();
 });
 
-app.use("/api", apiRouter);
+app.use("/api/auth", apiAuthRouter);
 app.listen(config.PORT, () => {
   console.log(`Application listening on port ${config.PORT}!`);
 });
