@@ -1,6 +1,6 @@
 import { Router } from "express";
-import { register, logIn } from "./controllers/user.js";
-import verifyToken from "./services/verifyToken.js";
+import { register, logIn } from "../controllers/user.js";
+import verifyToken from "../services/verifyToken.js";
 
 export const router = (function () {
   let apiRouter = Router();
