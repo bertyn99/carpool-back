@@ -1,54 +1,35 @@
 import BaseService from "./baseService.js";
 import UserModel from "../db/model/user.js";
-class UserService extends BaseService {
-  constructor(UserModel) {
-    super(UserModel);
-  }
-
+const db = UserModel;
+const UserService = {
   async getUsers() {
-    const users = await this.db.user.findMany();
+    const users = await db.getUsers();
     return users;
-  }
+  },
 
   async getUser(id) {
-    const user = await this.db.user.findUnique({
-      where: {
-        id: id,
-      },
-    });
+    const user = await db.getUserById(id);
     return user;
-  }
+  },
 
   async createUser(data) {
-    const user = await this.db.user.create({
-      data: data,
-    });
+    const user = await db.create(data);
     return user;
-  }
+  },
 
   async updateUser(id, data) {
-    const user = await this.db.user.update({
-      where: {
-        id: id,
-      },
-      data: data,
-    });
+    const user = await db.update(id, data);
     return user;
-  }
+  },
 
   async deleteUser(id) {
-    const user = await this.db.user.delete({
-      where: {
-        id: id,
-      },
-    });
+    const user = await db.delete(id);
     return user;
-  }
-
+  },
   async addCar(id, data) {
-    const user = await this.db.user.addCar(id, data);
+    const user = await db.addCar(id, data);
     return user;
-  }
-}
+  },
+};
 
 export default UserService;
