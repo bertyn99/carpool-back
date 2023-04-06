@@ -1,38 +1,47 @@
 import prisma from "../../prisma/prisma.js";
-
+import argon2 from "argon2";
 const UserModel = {
   async create(user) {
-    const { name, email, tel, password } = user;
-    const newUser = await prisma.user.create({
-      data: {
-        name: name,
-        email: email,
-        tel: tel,
-        password: password,
-      },
-      select: {
-        name: true,
-        email: true,
-        tel: true,
-      },
-    });
+    try {
+      const { name, email, tel, password } = user;
+      const newUser = await prisma.user.create({
+        data: {
+          name: name,
+          email: email,
+          tel: tel,
+          password: password,
+        },
+        select: {
+          name: true,
+          email: true,
+          tel: true,
+        },
+      });
 
-    return newUser;
+      return newUser;
+    } catch (error) {
+      throw new Error("Cannot create user");
+    }
   },
   async update(id, user) {
-    const { name, email, phone, password } = user;
-    const updatedUser = await prisma.user.update({
-      where: {
-        id: id,
-      },
-      data: {
-        name: name,
-        email: email,
-        tel: phone,
-        password: password,
-      },
-    });
-    return updatedUser;
+    try {
+      const { name, email, phone, password } = user;
+      const updatedUser = await prisma.user.update({
+        where: {
+          id: id,
+        },
+        data: {
+          name: name,
+          email: email,
+          tel: phone,
+          password: password,
+        },
+      });
+      return updatedUser;
+    } catch (error) {
+      console.log(error);
+      throw new Error("Cannot update user");
+    }
   },
   async delete(id) {
     const deletedUser = await prisma.user.delete({
