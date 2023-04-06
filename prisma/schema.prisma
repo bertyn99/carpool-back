@@ -27,7 +27,7 @@ model User {
   email    String      @unique
   name     String?
   password String
-  tel      String
+  tel      String      @unique
   role     Role        @default(USER)
   car      Car[]
   messages Message[]
