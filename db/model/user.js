@@ -54,7 +54,7 @@ const UserModel = {
   async getUserById(id) {
     const user = await prisma.user.findUnique({
       where: {
-        id: id,
+        id: Number(id),
       },
     });
     return user;
@@ -110,13 +110,26 @@ const UserModel = {
     });
     return trips;
   },
-  async addCar(car) {
+  async addCar(id, car) {
     const { nbPlate, color, model } = car;
-    const newCar = await prisma.car.create({
+    const newCar = await prisma.user.update({
+      where: {
+        id: Number(id),
+      },
       data: {
-        nbPlate: nbPlate,
-        color: color,
-        model: model,
+        car: {
+          create: {
+            nbPlate: nbPlate,
+            color: color,
+            model: model,
+          },
+        },
+      },
+      select: {
+        name: true,
+        car: {
+          select: { model: true },
+        },
       },
     });
     return newCar;

@@ -24,5 +24,20 @@ async function logIn(req, res) {
     errorRes(res, e, 400);
   }
 }
+async function addCar(req, res) {
+  try {
+    //get user id from req.params
+    const { id } = req.params;
 
-export { register, logIn };
+    //get car data from req.body
+    const { nbPlate, color, model } = req.body;
+
+    const user = await UserService.addCar(id, { nbPlate, color, model });
+
+    successRes(res, "Card add to Your Accunt", 200);
+  } catch (e) {
+    errorRes(res, e, 400);
+  }
+}
+
+export { register, logIn, addCar };
