@@ -6,6 +6,7 @@ import compression from "compression";
 import morgan from "morgan";
 import config from "./config.js";
 import { router as apiAuthRouter } from "./routes/auth.js";
+import { router as apiUserRouter } from "./routes/user.js";
 
 app.use(urlencoded({ extended: true }));
 app.use(json());
@@ -21,6 +22,7 @@ app.use(function (req, res, next) {
 });
 
 app.use("/api/auth", apiAuthRouter);
+app.use("/api/user", apiUserRouter);
 app.listen(config.PORT, () => {
   console.log(`Application listening on port ${config.PORT}!`);
 });
