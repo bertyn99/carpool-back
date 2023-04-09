@@ -1,6 +1,6 @@
 import { Router } from "express";
 import { register, logIn } from "../controllers/user.js";
-import verifyToken from "../services/verifyToken.js";
+import verifyToken from "../middlewares/verifyToken.js";
 
 export const router = (function () {
   let apiRouter = Router();
@@ -9,11 +9,14 @@ export const router = (function () {
   apiRouter.get("/", (req, res) => {
     res.send("API is running");
   });
-  // register user
+  // register the user
   apiRouter.route("/register").post(register);
 
-  // connection user
+  // connection of the user
   apiRouter.route("/login").post(logIn);
+
+  // deconnect the user
+  apiRouter.route("/logout").post(logIn);
 
   return apiRouter;
 })();
