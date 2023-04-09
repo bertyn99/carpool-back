@@ -5,12 +5,14 @@ const app = express();
 import compression from "compression";
 import morgan from "morgan";
 import config from "./config.js";
+import cookieParser from "cookie-parser";
 import { router as apiAuthRouter } from "./routes/auth.js";
 import { router as apiUserRouter } from "./routes/user.js";
 
 app.use(urlencoded({ extended: true }));
 app.use(json());
 app.use(compression());
+app.use(cookieParser())
 app.use(morgan("tiny"));
 app.use(function (req, res, next) {
   res.header("Access-Control-Allow-Origin", "*");

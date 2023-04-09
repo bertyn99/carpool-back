@@ -1,17 +1,8 @@
 import BaseService from "./baseService.js";
 import UserModel from "../db/model/user.js";
-import { createSigner, createVerifier } from "fast-jwt";
+import {signerToken,signerRefreshToken,decode} from "../utils/jwt.js";
 import argon2 from "argon2";
 const db = UserModel;
-//signer
-const signerToken = createSigner({ expiresIn: 1000 * 60 * 10, key: "secret" });//10 minutes
-const signerRefreshToken = createSigner({
-  expiresIn: 1000 * 60 * 60 * 24 * 7,//7 days
-  key: "secret",
-});
-// Standard decoder
-const decode = createVerifier({ key: "secret" });
-
 
 const UserService = {
   /**
@@ -116,8 +107,8 @@ const UserService = {
    * @returns 
    */
   async generateToken(payload) {
-    const access =await generateAccessToken({ ...payload});
-    const refresh =await  generateRefreshToken({ ...payload });
+    const access =await this.generateAccessToken({ ...payload});
+    const refresh =await  this.generateRefreshToken({ ...payload });
     return { access_token: access, refresh_token: refresh };
   },
 
@@ -134,7 +125,7 @@ const UserService = {
    * @param {*} payload 
    * @returns 
    */
-  async generateRefreshToken(){
+  async generateRefreshToken(payload){
     return signerRefreshToken({ ...payload });;
   },
 

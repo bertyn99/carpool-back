@@ -23,7 +23,9 @@ async function logIn(req, res) {
   try {
     const { email, password } = req.body;
     const user = await UserService.loginUser({ email, password });
-    res.cookie("access_token", user.token.access_token, {
+
+    console.log(user);
+    res.cookie("access_token", user.access_token, {
       httpOnly: true,
       maxAge:10 * 60 * 1000,
     })
@@ -48,4 +50,15 @@ async function addCar(req, res) {
   }
 }
 
-export { register, logIn, addCar };
+async function getUser(req, res) {
+   try {
+   
+
+    successRes(res,req.user, 200);
+  } catch (e) {
+    errorRes(res, e, 400);
+  }
+}
+
+
+export { register, logIn, addCar,getUser};
