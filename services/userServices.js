@@ -75,7 +75,15 @@ const UserService = {
     return user;
   },
   async addCar(id, data) {
-    const user = await db.addCar(id, data);
+    //check if user exists
+    const userExist = await db.getUserById(id);
+
+    if (!userExist) {
+      throw new Error("User not found");
+    }
+    //add car to the user
+    const user = await db.addCar(userExist.id, data);
+
     return user;
   },
 
