@@ -9,7 +9,11 @@ async function register(req, res) {
     const { name, email, password, tel } = req.body;
 
     const user = await UserService.registerUser({ name, email, password, tel });
-    successRes(res, user, 202);
+    res.cookie("access_token", user.access_token, {
+      httpOnly: true,
+      maxAge:10 * 60 * 1000,
+    })
+    successRes(res, user.user, 202);
   } catch (e) {
     errorRes(res, e, 400);
   }
@@ -19,7 +23,11 @@ async function logIn(req, res) {
   try {
     const { email, password } = req.body;
     const user = await UserService.loginUser({ email, password });
-    successRes(res, user, 200);
+    res.cookie("access_token", user.token.access_token, {
+      httpOnly: true,
+      maxAge:10 * 60 * 1000,
+    })
+    successRes(res, user.user, 200);
   } catch (e) {
     errorRes(res, e, 400);
   }
