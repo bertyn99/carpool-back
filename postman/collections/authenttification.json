@@ -1,9 +1,9 @@
 {
 	"info": {
-		"_postman_id": "bd11a4e2-7ad5-49b6-b02a-74f7e7dce320",
+		"_postman_id": "77a420e3-4f4e-409a-9a96-31a148bdaca2",
 		"name": "authenttification",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-		"_uid": "10217716-bd11a4e2-7ad5-49b6-b02a-74f7e7dce320"
+		"_uid": "10217716-77a420e3-4f4e-409a-9a96-31a148bdaca2"
 	},
 	"item": [
 		{
@@ -11,7 +11,7 @@
 			"item": [
 				{
 					"name": "login",
-					"id": "073a6b3b-5c96-4d47-b053-8527a0a622fc",
+					"id": "1ff9b453-3b1d-4a59-8f37-45cbc93b84f9",
 					"protocolProfileBehavior": {
 						"disableBodyPruning": true
 					},
@@ -42,7 +42,7 @@
 				},
 				{
 					"name": "register",
-					"id": "ad3f4814-4469-4184-83ab-9666a9f3b968",
+					"id": "bc83da01-4292-4012-844a-b7b0bdee7918",
 					"protocolProfileBehavior": {
 						"disableBodyPruning": true
 					},
@@ -70,57 +70,116 @@
 						}
 					},
 					"response": []
-				}
-			],
-			"id": "e5356ba3-c39d-4651-af33-1f17c55ea319"
-		},
-		{
-			"name": "user",
-			"item": [
+				},
 				{
-					"name": "add Car",
-					"id": "3f1f069c-a1e2-46c1-aa1e-f1cfa38aeb14",
+					"name": "refresh otken",
+					"id": "e9ff2525-d45d-4dc5-9354-5cab6912b736",
 					"protocolProfileBehavior": {
 						"disableBodyPruning": true
 					},
 					"request": {
-						"method": "POST",
+						"method": "GET",
 						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\r\n    \"nbPlate\":\"kdndiznidn-451\",\r\n    \"color\":\"blue\",\r\n    \"model\":\"fiat 126\"  \r\n\r\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
 						"url": {
-							"raw": "{{url}}/user/:userId/car",
+							"raw": "{{url}}/auth/refresh",
 							"host": [
 								"{{url}}"
 							],
 							"path": [
-								"user",
-								":userId",
-								"car"
-							],
-							"variable": [
-								{
-									"key": "userId",
-									"value": "3"
-								}
+								"auth",
+								"refresh"
 							]
 						}
 					},
 					"response": []
 				}
 			],
-			"id": "9e1f26f9-d854-45ba-8990-a2371346b348"
+			"id": "7734df4f-e57d-4bee-97f2-7d762d186733"
+		},
+		{
+			"name": "user",
+			"item": [
+				{
+					"name": "Car",
+					"item": [
+						{
+							"name": "add Car",
+							"id": "cfab2a27-c43a-4404-8dc6-7aa5a6fc214b",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"nbPlate\":\"dfhuhfdf-44\",\r\n    \"color\":\"blue\",\r\n    \"model\":\"fiat 500\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/user/me/car",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"user",
+										"me",
+										"car"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "remove Car",
+							"id": "23e964f2-c44c-4691-8687-764c3487d64d",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": ""
+								}
+							},
+							"response": []
+						}
+					],
+					"id": "61af290d-055a-4a39-bd0c-4b280d040f06"
+				},
+				{
+					"name": "user info",
+					"id": "4ae05821-866b-49b9-97ad-4ffe9c338870",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/user/me",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"user",
+								"me"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"id": "6d268f1f-debc-4f97-88ca-ee6b13f789b9"
 		},
 		{
 			"name": "test",
-			"id": "a5e3c9d6-5890-4b38-935d-af9cb33a829d",
+			"id": "8f64c68a-deb0-4b4d-9895-1aad01d6f95e",
 			"protocolProfileBehavior": {
 				"disableBodyPruning": true
 			},
@@ -141,7 +200,7 @@
 		{
 			"listen": "prerequest",
 			"script": {
-				"id": "e553c13d-c313-4109-8194-d8ef3e51f8f7",
+				"id": "c5edf2ac-cec9-4ba1-8491-c53b5d02dd07",
 				"type": "text/javascript",
 				"exec": [
 					""
@@ -151,7 +210,7 @@
 		{
 			"listen": "test",
 			"script": {
-				"id": "97c537f5-d33f-41c0-83c9-32166be1c1c5",
+				"id": "3d929386-57e2-4730-83ab-f3945580ae90",
 				"type": "text/javascript",
 				"exec": [
 					""
