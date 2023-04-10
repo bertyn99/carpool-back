@@ -11,8 +11,8 @@ async function register(req, res) {
     const user = await UserService.registerUser({ name, email, password, tel });
     res.cookie("access_token", user.access_token, {
       httpOnly: true,
-      maxAge:10 * 60 * 1000,
-    })
+      maxAge: 10 * 60 * 1000,
+    });
     successRes(res, user.user, 202);
   } catch (e) {
     errorRes(res, e, 400);
@@ -27,8 +27,14 @@ async function logIn(req, res) {
     console.log(user);
     res.cookie("access_token", user.access_token, {
       httpOnly: true,
-      maxAge:10 * 60 * 1000,
-    })
+      maxAge: 1 * 60 * 1000,
+    });
+    res.cookie("refreshToken", user.access_token, {
+      httpOnly: true,
+      maxAge: 10 * 60 * 1000,
+    });
+
+    delete user.refresh_token;
     successRes(res, user.user, 200);
   } catch (e) {
     errorRes(res, e, 400);
@@ -36,9 +42,8 @@ async function logIn(req, res) {
 }
 async function addCar(req, res) {
   try {
-    //get user id from req.params
-    const { id } = req.params;
-
+    //get user id from req.user
+    const { id } = req.user;
     //get car data from req.body
     const { nbPlate, color, model } = req.body;
 
@@ -51,14 +56,49 @@ async function addCar(req, res) {
 }
 
 async function getUser(req, res) {
-   try {
-   
-
-    successRes(res,req.user, 200);
+  try {
+    successRes(res, req.user, 200);
   } catch (e) {
     errorRes(res, e, 400);
   }
 }
 
+async function handleRefreshToken(req, res) {
+  try {
+    const { refreshToken } = req.cookies;
 
-export { register, logIn, addCar,getUser};
+    if (!refreshToken) {
+      throw new Error("No refresh token");
+    }
+
+    const decoded = await UserService.decodeToken(refreshToken);
+    console.log(decoded);
+    //check if accesToken expired
+    if (!decoded.exp || decoded.exp < Date.now() / 1000) {
+      throw new Error("Invalid access token");
+    }
+    res.clearCookie("access_token", {
+      httpOnly: true,
+      secure: true,
+    });
+    res.clearCookie("refreshToken", {
+      httpOnly: true,
+
+      secure: true,
+    });
+    const token = await UserService.generateToken({ id: decoded.id });
+    res.cookie("access_token", token.access_token, {
+      httpOnly: true,
+      maxAge: 2 * 60 * 1000,
+    });
+    res.cookie("refreshToken", token.refresh_token, {
+      httpOnly: true,
+      maxAge: 10 * 60 * 1000,
+    });
+    successRes(res, "Token refreshed", 200);
+  } catch (e) {
+    errorRes(res, e, 400);
+  }
+}
+
+export { register, logIn, addCar, getUser, handleRefreshToken };

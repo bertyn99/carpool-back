@@ -55,7 +55,9 @@ const UserModel = {
     const user = await prisma.user.findUnique({
       where: {
         id: Number(id),
-      },
+      },include: {
+        car: true,
+      }
     });
     return user;
   },

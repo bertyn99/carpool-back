@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { register, logIn } from "../controllers/user.js";
+import { register, logIn, handleRefreshToken } from "../controllers/user.js";
 import verifyToken from "../middlewares/verifyToken.js";
 
 export const router = (function () {
@@ -14,6 +14,9 @@ export const router = (function () {
 
   // connection of the user
   apiRouter.route("/login").post(logIn);
+
+  //refresh the token
+  apiRouter.route("/refresh").get(handleRefreshToken);
 
   // deconnect the user
   apiRouter.route("/logout").post(logIn);
