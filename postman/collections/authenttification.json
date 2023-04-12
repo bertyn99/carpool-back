@@ -178,6 +178,45 @@
 			"id": "6d268f1f-debc-4f97-88ca-ee6b13f789b9"
 		},
 		{
+			"name": "trips",
+			"item": [
+				{
+					"name": "create trips",
+					"id": "00e2dd44-aaf9-49ea-93f3-0bc2d1e74be6",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/trips",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"trips"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get trips",
+					"id": "57c485be-ca10-4de3-868a-040e5ab5036c",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": []
+					},
+					"response": []
+				}
+			],
+			"id": "60a448a2-d7c6-4813-afd9-ff9b909e9dc5"
+		},
+		{
 			"name": "test",
 			"id": "8f64c68a-deb0-4b4d-9895-1aad01d6f95e",
 			"protocolProfileBehavior": {
