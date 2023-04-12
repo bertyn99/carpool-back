@@ -1,6 +1,6 @@
 // To declare
 //db and schema
-import User from "../db/model/user.js";
+
 import { successRes, errorRes } from "../common/response.js";
 import UserService from "../services/userServices.js";
 
@@ -40,20 +40,6 @@ async function logIn(req, res) {
     errorRes(res, e, 400);
   }
 }
-async function addCar(req, res) {
-  try {
-    //get user id from req.user
-    const { id } = req.user;
-    //get car data from req.body
-    const { nbPlate, color, model } = req.body;
-
-    const user = await UserService.addCar(id, { nbPlate, color, model });
-
-    successRes(res, "Card add to Your Accunt", 200);
-  } catch (e) {
-    errorRes(res, e, 400);
-  }
-}
 
 async function getUser(req, res) {
   try {
@@ -72,7 +58,7 @@ async function handleRefreshToken(req, res) {
     }
 
     const decoded = await UserService.decodeToken(refreshToken);
-    console.log(decoded);
+
     //check if accesToken expired
     if (!decoded.exp || decoded.exp < Date.now() / 1000) {
       throw new Error("Invalid access token");
@@ -101,4 +87,34 @@ async function handleRefreshToken(req, res) {
   }
 }
 
-export { register, logIn, addCar, getUser, handleRefreshToken };
+async function addCar(req, res) {
+  try {
+    //get user id from req.user
+    const { id } = req.user;
+    //get car data from req.body
+    const { nbPlate, color, model } = req.body;
+
+    const user = await UserService.addCar(id, { nbPlate, color, model });
+
+    successRes(res, "Card add to Your Accunt", 200);
+  } catch (e) {
+    errorRes(res, e, 400);
+  }
+}
+
+async function modifyCar(req, res) {
+  try {
+    //get user id from req.user
+    const { id } = req.user;
+    //get car data from req.body
+    const { nbPlate, color, model } = req.body;
+
+    const user = await UserService.addCar(id, { nbPlate, color, model });
+
+    successRes(res, "Car of Your Accunt was Updated", 200);
+  } catch (e) {
+    errorRes(res, e, 400);
+  }
+}
+
+export { register, logIn, addCar, getUser, handleRefreshToken, modifyCar };
