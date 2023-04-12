@@ -209,7 +209,16 @@
 					},
 					"request": {
 						"method": "GET",
-						"header": []
+						"header": [],
+						"url": {
+							"raw": "{{url}}/trips",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"trips"
+							]
+						}
 					},
 					"response": []
 				}
