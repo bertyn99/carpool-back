@@ -55,9 +55,10 @@ const UserModel = {
     const user = await prisma.user.findUnique({
       where: {
         id: Number(id),
-      },include: {
+      },
+      include: {
         car: true,
-      }
+      },
     });
     return user;
   },
@@ -120,10 +121,17 @@ const UserModel = {
       },
       data: {
         car: {
-          create: {
-            nbPlate: nbPlate,
-            color: color,
-            model: model,
+          upsert: {
+            create: {
+              nbPlate: nbPlate,
+              color: color,
+              model: model,
+            },
+            update: {
+              nbPlate: nbPlate,
+              color: color,
+              model: model,
+            },
           },
         },
       },

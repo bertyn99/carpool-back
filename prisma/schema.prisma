@@ -29,7 +29,7 @@ model User {
   password String
   tel      String      @unique
   role     Role        @default(USER)
-  car      Car[]
+  car      Car?
   messages Message[]
   trips    UserTrips[]
   Trip     Trip[]
@@ -61,6 +61,7 @@ model Trip {
   start_addressId Int?
   end_address     Adress?     @relation("end", fields: [end_addressId], references: [id])
   end_addressId   Int?
+  price           Float       @default(0)
   steps           Step[]
   date            DateTime
   driver          User        @relation(fields: [userId], references: [id])
