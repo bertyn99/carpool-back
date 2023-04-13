@@ -13,6 +13,10 @@ async function register(req, res) {
       httpOnly: true,
       maxAge: 10 * 60 * 1000,
     });
+    res.cookie("refreshToken", user.access_token, {
+      httpOnly: true,
+      maxAge: 60 * 60 * 1000,
+    });
     successRes(res, user.user, 202);
   } catch (e) {
     errorRes(res, e, 400);
@@ -27,11 +31,11 @@ async function logIn(req, res) {
     console.log(user);
     res.cookie("access_token", user.access_token, {
       httpOnly: true,
-      maxAge: 1 * 60 * 1000,
+      maxAge: 10 * 60 * 1000,
     });
     res.cookie("refreshToken", user.access_token, {
       httpOnly: true,
-      maxAge: 10 * 60 * 1000,
+      maxAge: 60 * 60 * 1000,
     });
 
     delete user.refresh_token;
@@ -75,11 +79,11 @@ async function handleRefreshToken(req, res) {
     const token = await UserService.generateToken({ id: decoded.id });
     res.cookie("access_token", token.access_token, {
       httpOnly: true,
-      maxAge: 2 * 60 * 1000,
+      maxAge: 10 * 60 * 1000,
     });
     res.cookie("refreshToken", token.refresh_token, {
       httpOnly: true,
-      maxAge: 10 * 60 * 1000,
+      maxAge: 60 * 60 * 1000,
     });
     successRes(res, "Token refreshed", 200);
   } catch (e) {
