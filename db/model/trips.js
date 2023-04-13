@@ -3,16 +3,9 @@ import prisma from "../../prisma/prisma.js";
 const TripsModel = {
   async create(trip, start_address, end_address) {
     try {
-<<<<<<< HEAD
       const { duree, price,step, date } = trip;
       const {street, city, zipCode, long, lat} = start_address;
       const {street_end, city_end, zipCode_end, long_end, lat_end} = end_address;
-=======
-      const { duree, price, date } = trip;
-      const { street, city, zipCode, long, lat } = start_address;
-      const { street_end, city_end, zipCode_end, long_end, lat_end } =
-        end_address;
->>>>>>> 6f60133bfb7ee3177bd94b25f95c293d4a6fbbcc
       const newTrip = await prisma.trip.create({
         data: {
           duree: duree,
@@ -52,15 +45,9 @@ const TripsModel = {
               },
             },
           },
-<<<<<<< HEAD
-          },
           steps : step,
           price : price,
           date  : date,
-=======
-          price: price,
-          date: date,
->>>>>>> 6f60133bfb7ee3177bd94b25f95c293d4a6fbbcc
         },
         select: {
           duree: true,
@@ -85,7 +72,6 @@ const TripsModel = {
           id: id,
         },
         data: {
-<<<<<<< HEAD
           duree : duree,
           start_address : {
             upsert: {
@@ -126,14 +112,6 @@ const TripsModel = {
           steps : step,
           price : price,
           date  : date,
-=======
-          duree: duree,
-          start_address: start_address,
-          end_address: end_address,
-          price: price,
-          steps: steps,
-          date: date,
->>>>>>> 6f60133bfb7ee3177bd94b25f95c293d4a6fbbcc
         },
         select: {
           duree: true,
@@ -204,13 +182,8 @@ const TripsModel = {
     return trips;
   },
   async addStep(id, adress) {
-<<<<<<< HEAD
     const {street, city, zipCode, long, lat} = adress;
     const newStep = await prisma.trip.update({
-=======
-    const { street, city, zipCode, long, lat } = adress;
-    const newCar = await prisma.trip.update({
->>>>>>> 6f60133bfb7ee3177bd94b25f95c293d4a6fbbcc
       where: {
         id: Number(id),
       },
