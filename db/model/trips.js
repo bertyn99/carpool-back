@@ -3,51 +3,64 @@ import prisma from "../../prisma/prisma.js";
 const TripsModel = {
   async create(trip, start_address, end_address) {
     try {
+<<<<<<< HEAD
       const { duree, price,step, date } = trip;
       const {street, city, zipCode, long, lat} = start_address;
       const {street_end, city_end, zipCode_end, long_end, lat_end} = end_address;
+=======
+      const { duree, price, date } = trip;
+      const { street, city, zipCode, long, lat } = start_address;
+      const { street_end, city_end, zipCode_end, long_end, lat_end } =
+        end_address;
+>>>>>>> 6f60133bfb7ee3177bd94b25f95c293d4a6fbbcc
       const newTrip = await prisma.trip.create({
         data: {
-          duree : duree,
-          start_address : {
+          duree: duree,
+          start_address: {
             upsert: {
               create: {
-                street  : street,
-                city    : city,
-                zipCode : zipCode,
-                long    : long,
-                lat     : lat,
+                street: street,
+                city: city,
+                zipCode: zipCode,
+                long: long,
+                lat: lat,
               },
               update: {
-                street  : street,
-                city    : city,
-                zipCode : zipCode,
-                long    : long,
-                lat     : lat,
+                street: street,
+                city: city,
+                zipCode: zipCode,
+                long: long,
+                lat: lat,
               },
             },
           },
-          end_address : {
+          end_address: {
             upsert: {
               create: {
-                street  : street_end,
-                city    : city_end,
-                zipCode : zipCode_end,
-                long    : long_end,
-                lat     : lat_end,
+                street: street_end,
+                city: city_end,
+                zipCode: zipCode_end,
+                long: long_end,
+                lat: lat_end,
               },
               update: {
-                street  : street_end,
-                city    : city_end,
-                zipCode : zipCode_end,
-                long    : long_end,
-                lat     : lat_end,
+                street: street_end,
+                city: city_end,
+                zipCode: zipCode_end,
+                long: long_end,
+                lat: lat_end,
               },
+            },
           },
+<<<<<<< HEAD
           },
           steps : step,
           price : price,
           date  : date,
+=======
+          price: price,
+          date: date,
+>>>>>>> 6f60133bfb7ee3177bd94b25f95c293d4a6fbbcc
         },
         select: {
           duree: true,
@@ -69,9 +82,10 @@ const TripsModel = {
       const {street_end, city_end, zipCode_end, long_end, lat_end} = end_address;
       const updatedTrip = await prisma.trip.update({
         where: {
-          id  : id,
+          id: id,
         },
         data: {
+<<<<<<< HEAD
           duree : duree,
           start_address : {
             upsert: {
@@ -112,6 +126,14 @@ const TripsModel = {
           steps : step,
           price : price,
           date  : date,
+=======
+          duree: duree,
+          start_address: start_address,
+          end_address: end_address,
+          price: price,
+          steps: steps,
+          date: date,
+>>>>>>> 6f60133bfb7ee3177bd94b25f95c293d4a6fbbcc
         },
         select: {
           duree: true,
@@ -176,14 +198,19 @@ const TripsModel = {
         passengers: true,
         start_address: true,
         end_address: true,
-        driver: { select: { name: true } },
+        driver: { select: { name: true, avatar: true } },
       },
     });
     return trips;
   },
   async addStep(id, adress) {
+<<<<<<< HEAD
     const {street, city, zipCode, long, lat} = adress;
     const newStep = await prisma.trip.update({
+=======
+    const { street, city, zipCode, long, lat } = adress;
+    const newCar = await prisma.trip.update({
+>>>>>>> 6f60133bfb7ee3177bd94b25f95c293d4a6fbbcc
       where: {
         id: Number(id),
       },
@@ -191,18 +218,18 @@ const TripsModel = {
         step: {
           upsert: {
             create: {
-              street  : street,
-              city    : city,
-              zipCode : zipCode,
-              long    : long,
-              lat     : lat,
+              street: street,
+              city: city,
+              zipCode: zipCode,
+              long: long,
+              lat: lat,
             },
             update: {
-              street  : street,
-              city    : city,
-              zipCode : zipCode,
-              long    : long,
-              lat     : lat,
+              street: street,
+              city: city,
+              zipCode: zipCode,
+              long: long,
+              lat: lat,
             },
           },
         },
