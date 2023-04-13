@@ -22,6 +22,7 @@ const TripsService = {
     if (tripToUpdate.userId !== trip.user_id) {
       throw new Error("You are not allowed to update this trip");
     }
+
     const updatedTrip = await db.update(id, trip, start_address, end_address);
     return updatedTrip;
   },
@@ -29,6 +30,9 @@ const TripsService = {
     const tripToUpdate = await db.getTripById(id);
     if(tripToUpdate.userId == passenger.user_id){
       throw new Error("You are not allowed to add yourself as a passenger");
+    }
+    if(tripToUpdate.nb_passenger < 4){
+      throw new Error("there is no more possibility to add a passenger");
     }
     const updatedTrip = await db.addPassenger(id, passenger);
     return updatedTrip;

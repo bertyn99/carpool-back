@@ -69,7 +69,7 @@ const TripsModel = {
       const {street_end, city_end, zipCode_end, long_end, lat_end} = end_address;
       const updatedTrip = await prisma.trip.update({
         where: {
-          id: id,
+          id: Number(id),
         },
         data: {
           duree : duree,
@@ -129,7 +129,7 @@ const TripsModel = {
   async delete(id) {
     const deletedTrip = await prisma.trip.delete({
       where: {
-        id,
+        id : Number(id),
       },
     });
     return deletedTrip;
@@ -137,7 +137,7 @@ const TripsModel = {
   async getTripById(id) {
     const trip = await prisma.trip.findUnique({
       where: {
-        id,
+        id : Number(id),
       },
     });
     return trip;
@@ -145,7 +145,7 @@ const TripsModel = {
   async getTripByUserId(user_id) {
     const trip = await prisma.trip.findUnique({
       where: {
-        user_id,
+        user_id : user_id,
       },
     });
     return trip;
@@ -153,7 +153,7 @@ const TripsModel = {
   async getTripByDate(date) {
     const trip = await prisma.trip.findUnique({
       where: {
-        date,
+        date : date,
       },
     });
     return trip;
@@ -161,7 +161,7 @@ const TripsModel = {
   async getTripByAdress(id) {
     const trip = await prisma.trip.findUnique({
       where: {
-        tripId: id,
+        tripId: Number(id) ,
       },
       include: {
         adress: true,
@@ -176,11 +176,12 @@ const TripsModel = {
         passengers: true,
         start_address: true,
         end_address: true,
-        driver: { select: { name: true, avatar: true } },
+        driver: { select: { name: true, avatar: true} },
       },
     });
     return trips;
   },
+  /*
   async addStep(id, adress) {
     const {street, city, zipCode, long, lat} = adress;
     const newStep = await prisma.trip.update({
@@ -216,6 +217,7 @@ const TripsModel = {
     });
     return newStep;
   },
+  */
   async addPassenger(id, user) {
     const { name, email, tel } = user;
     const newPassenger = await prisma.trip.update({
@@ -223,6 +225,7 @@ const TripsModel = {
         id: Number(id),
       },
       data: {
+        nb_passenger : nb_passenger + 1, 
         passenger: {
           upsert: {
             create: {

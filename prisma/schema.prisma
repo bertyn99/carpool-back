@@ -1,6 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
 generator client {
   provider = "prisma-client-js"
 }
@@ -11,25 +8,14 @@ datasource db {
   relationMode = "prisma"
 }
 
-enum Role {
-  ADMIN
-  USER
-}
-
-enum State {
-  SOON
-  IN_PROGRESS
-  COMPLETED
-}
-
 model User {
   id       Int         @id @default(autoincrement())
   email    String      @unique
   name     String?
   password String
-  avatar   String?
   tel      String      @unique
   role     Role        @default(USER)
+  avatar   String?
   car      Car?
   messages Message[]
   trips    UserTrips[]
@@ -41,33 +27,34 @@ model Car {
   nbPlate String @unique
   color   String
   model   String
-  user    User   @relation(fields: [userId], references: [id])
   userId  Int    @unique
+  user    User   @relation(fields: [userId], references: [id])
 }
 
 model Message {
   id      Int      @id @default(autoincrement())
   content String
   date    DateTime @default(now())
-  user    User?    @relation(fields: [userId], references: [id], onDelete: NoAction, onUpdate: NoAction)
   userId  Int      @unique
-  trip    Trip?    @relation(fields: [tripId], references: [id], onDelete: NoAction, onUpdate: NoAction)
   tripId  Int      @unique
+  user    User?    @relation(fields: [userId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  trip    Trip?    @relation(fields: [tripId], references: [id], onDelete: NoAction, onUpdate: NoAction)
 }
 
 model Trip {
   id              Int         @id @default(autoincrement())
   duree           String
-  start_address   Adress?     @relation("start", fields: [start_addressId], references: [id])
   start_addressId Int?
-  end_address     Adress?     @relation("end", fields: [end_addressId], references: [id])
   end_addressId   Int?
-  price           Float       @default(0)
-  steps           Step[]
   date            DateTime
-  driver          User        @relation(fields: [userId], references: [id])
+  nb_passengers   Int         @default(0)
   userId          Int         @unique
   state           State       @default(SOON)
+  price           Float       @default(0)
+  start_address   Adress?     @relation("start", fields: [start_addressId], references: [id])
+  end_address     Adress?     @relation("end", fields: [end_addressId], references: [id])
+  steps           Step[]
+  driver          User        @relation(fields: [userId], references: [id])
   message         Message[]
   passengers      UserTrips[]
 
@@ -77,31 +64,41 @@ model Trip {
 }
 
 model Adress {
-  id      Int    @id @default(autoincrement())
-  city    String
-  zipCode Int
-  street  String
-  long    String
-  lat     String
-  Step    Step[]
-
+  id         Int    @id @default(autoincrement())
+  city       String
+  zipCode    Int
+  street     String
+  long       String
+  lat        String
+  Step       Step[]
   start_trip Trip[] @relation("start")
   end_Trip   Trip[] @relation("end")
 }
 
 model Step {
   id       Int     @id @default(autoincrement())
-  adress   Adress? @relation(fields: [adressId], references: [id])
   adressId Int?    @unique
-  Trip     Trip?   @relation(fields: [tripId], references: [id])
   tripId   Int?
+  adress   Adress? @relation(fields: [adressId], references: [id])
+  Trip     Trip?   @relation(fields: [tripId], references: [id])
 
   @@index([tripId])
 }
 
 model UserTrips {
-  user   User? @relation(fields: [userId], references: [id])
   userId Int   @unique
-  trip   Trip  @relation(fields: [tripId], references: [id])
   tripId Int   @unique
+  user   User? @relation(fields: [userId], references: [id])
+  trip   Trip  @relation(fields: [tripId], references: [id])
+}
+
+enum Role {
+  ADMIN
+  USER
+}
+
+enum State {
+  SOON
+  IN_PROGRESS
+  COMPLETED
 }
