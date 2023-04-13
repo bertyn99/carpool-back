@@ -27,6 +27,7 @@ model User {
   email    String      @unique
   name     String?
   password String
+  avatar   String?
   tel      String      @unique
   role     Role        @default(USER)
   car      Car?
