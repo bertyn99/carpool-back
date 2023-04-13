@@ -3,7 +3,7 @@ import prisma from "../../prisma/prisma.js";
 const TripsModel = {
   async create(trip, start_address, end_address) {
     try {
-      const { duree, price, date } = trip;
+      const { duree, price,step, date } = trip;
       const {street, city, zipCode, long, lat} = start_address;
       const {street_end, city_end, zipCode_end, long_end, lat_end} = end_address;
       const newTrip = await prisma.trip.create({
@@ -45,6 +45,7 @@ const TripsModel = {
               },
           },
           },
+          steps : step,
           price : price,
           date  : date,
         },
@@ -61,19 +62,55 @@ const TripsModel = {
       throw new Error("Cannot create trip");
     }
   },
-  async update(id, trip) {
+  async update(id, trip, start_address, end_address) {
     try {
-      const { duree, start_address, end_address, price, steps, date } = trip;
+      const { duree, price, step, date } = trip;
+      const {street, city, zipCode, long, lat} = start_address;
+      const {street_end, city_end, zipCode_end, long_end, lat_end} = end_address;
       const updatedTrip = await prisma.trip.update({
         where: {
           id  : id,
         },
         data: {
           duree : duree,
-          start_address : start_address,
-          end_address : end_address,
+          start_address : {
+            upsert: {
+              create: {
+                street  : street,
+                city    : city,
+                zipCode : zipCode,
+                long    : long,
+                lat     : lat,
+              },
+              update: {
+                street  : street,
+                city    : city,
+                zipCode : zipCode,
+                long    : long,
+                lat     : lat,
+              },
+            },
+          },
+          end_address : {
+            upsert: {
+              create: {
+                street  : street_end,
+                city    : city_end,
+                zipCode : zipCode_end,
+                long    : long_end,
+                lat     : lat_end,
+              },
+              update: {
+                street  : street_end,
+                city    : city_end,
+                zipCode : zipCode_end,
+                long    : long_end,
+                lat     : lat_end,
+              },
+          },
+          },
+          steps : step,
           price : price,
-          steps : steps,
           date  : date,
         },
         select: {
@@ -146,7 +183,7 @@ const TripsModel = {
   },
   async addStep(id, adress) {
     const {street, city, zipCode, long, lat} = adress;
-    const newCar = await prisma.trip.update({
+    const newStep = await prisma.trip.update({
       where: {
         id: Number(id),
       },
@@ -172,12 +209,43 @@ const TripsModel = {
       },
       select: {
         name: true,
-        car: {
+        step: {
           select: { model: true },
         },
       },
     });
-    return newCar;
+    return newStep;
   },
+  async addPassenger(id, user) {
+    const { name, email, tel } = user;
+    const newPassenger = await prisma.trip.update({
+      where: {
+        id: Number(id),
+      },
+      data: {
+        passenger: {
+          upsert: {
+            create: {
+              name  : name, 
+              email : email,
+              tel   : tel,
+            },
+            update: {
+              name  : name,
+              email : email,
+              tel   : tel,
+            },
+          },
+        },
+      },
+      select: {
+        name: true,
+        user: {
+          select: { model: true },
+        },
+      },
+    });
+    return newPassenger;
+  }
 };
 export default TripsModel;
