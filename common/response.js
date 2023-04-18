@@ -1,6 +1,6 @@
-function errorRes(res, err, errMsg = "failed operation", statusCode = 500) {
+function errorRes(res, err, statusCode = 500) {
   console.error("ERROR:", err);
-  return res.status(statusCode).json({ success: false, error: errMsg });
+  return res.status(statusCode).json({ success: false, error: err.message });
 }
 
 function successRes(res, data = {}, statusCode = 200) {

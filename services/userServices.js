@@ -36,7 +36,7 @@ const UserService = {
     }
     const isValid = await argon2.verify(user.password, data.password);
     if (!isValid) {
-      throw new Error("Wrong password");
+      throw new Error("Wrong password or email");
     }
     //generate token
     const token = await this.generateToken({ id: user.id });
