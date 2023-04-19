@@ -16,7 +16,7 @@ export const router = (function () {
   apiRouter.route("/login").post(logIn);
 
   //refresh the token
-  apiRouter.route("/refresh").get(handleRefreshToken);
+  apiRouter.route("/token/refresh").get(verifyToken, handleRefreshToken);
 
   // deconnect the user
   apiRouter.route("/logout").post(logIn);

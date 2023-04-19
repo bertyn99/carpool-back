@@ -43,7 +43,7 @@ const UserService = {
     //remove password
     delete user.password;
     delete user.role;
-    return { ...user, ...token };
+    return { ...user, tokens: { ...token } };
   },
   async registerUser(data) {
     //hash password
@@ -69,7 +69,7 @@ const UserService = {
     //generate token
     const token = await this.generateToken({ id: user.id });
 
-    return { ...user, ...token };
+    return { ...user, tokens: { ...token } };
   },
 
   /**
@@ -108,7 +108,7 @@ const UserService = {
   async generateToken(payload) {
     const access = await this.generateAccessToken({ ...payload });
     const refresh = await this.generateRefreshToken({ ...payload });
-    return { access_token: access, refresh_token: refresh };
+    return { accessToken: access, refreshToken: refresh };
   },
 
   /**

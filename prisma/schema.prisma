@@ -47,10 +47,10 @@ model Trip {
   start_addressId Int?
   end_addressId   Int?
   date            DateTime
-  nb_passengers   Int         @default(0)
   userId          Int         @unique
   state           State       @default(SOON)
   price           Float       @default(0)
+  nb_passengers   Int         @default(0)
   start_address   Adress?     @relation("start", fields: [start_addressId], references: [id])
   end_address     Adress?     @relation("end", fields: [end_addressId], references: [id])
   steps           Step[]

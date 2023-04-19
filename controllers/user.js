@@ -9,15 +9,15 @@ async function register(req, res) {
     const { name, email, password, tel } = req.body;
 
     const user = await UserService.registerUser({ name, email, password, tel });
-    res.cookie("access_token", user.access_token, {
+    /*     res.cookie("access_token", user.access_token, {
       httpOnly: true,
       maxAge: 10 * 60 * 1000,
     });
     res.cookie("refreshToken", user.access_token, {
       httpOnly: true,
       maxAge: 60 * 60 * 1000,
-    });
-    successRes(res, user.user, 202);
+    }); */
+    successRes(res, user, 202);
   } catch (e) {
     errorRes(res, e, 400);
   }
@@ -29,7 +29,7 @@ async function logIn(req, res) {
     const user = await UserService.loginUser({ email, password });
 
     console.log(user);
-    res.cookie("access_token", user.access_token, {
+    /*     res.cookie("access_token", user.access_token, {
       httpOnly: true,
       maxAge: 10 * 60 * 1000,
     });
@@ -37,9 +37,8 @@ async function logIn(req, res) {
       httpOnly: true,
       maxAge: 60 * 60 * 1000,
     });
-
-    delete user.refresh_token;
-    successRes(res, user.user, 200);
+ */
+    successRes(res, user, 200);
   } catch (e) {
     errorRes(res, e, 400);
   }
@@ -55,37 +54,16 @@ async function getUser(req, res) {
 
 async function handleRefreshToken(req, res) {
   try {
-    const { refreshToken } = req.cookies;
-
-    if (!refreshToken) {
-      throw new Error("No refresh token");
-    }
-
-    const decoded = await UserService.decodeToken(refreshToken);
-
-    //check if accesToken expired
-    if (!decoded.exp || decoded.exp < Date.now() / 1000) {
-      throw new Error("Invalid access token");
-    }
-    res.clearCookie("access_token", {
-      httpOnly: true,
-      secure: true,
-    });
-    res.clearCookie("refreshToken", {
-      httpOnly: true,
-
-      secure: true,
-    });
-    const token = await UserService.generateToken({ id: decoded.id });
-    res.cookie("access_token", token.access_token, {
+    const token = await UserService.generateToken({ id: req.user.id });
+    /* res.cookie("access_token", token.access_token, {
       httpOnly: true,
       maxAge: 10 * 60 * 1000,
     });
     res.cookie("refreshToken", token.refresh_token, {
       httpOnly: true,
       maxAge: 60 * 60 * 1000,
-    });
-    successRes(res, "Token refreshed", 200);
+    }); */
+    successRes(res, token, 200);
   } catch (e) {
     errorRes(res, e, 400);
   }

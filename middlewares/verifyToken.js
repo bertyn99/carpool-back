@@ -2,14 +2,22 @@ import UserService from "../services/userServices.js";
 
 const verifyToken = async (req, res, next) => {
   try {
-    const { access_token, refreshToken } = req.cookies;
-    console.log(access_token, refreshToken);
+    //get bearer token
+    const bearerHeader = req.headers["authorization"];
+
+    //check if bearer is undefined
+    if (typeof bearerHeader == "undefined") throw new Error("No access token");
+    //get token from split
+    const token = bearerHeader.split(" ")[1];
+
+    /*  const { access_token, refreshToken } = req.cookies;
+    console.log(access_token, refreshToken); */
     /*  const refreshToken = req.cookies.refresh_token; */
-    if (!access_token || !refreshToken) {
+    if (!token) {
       throw new Error("No access token");
     }
 
-    const decoded = await UserService.decodeToken(access_token);
+    const decoded = await UserService.decodeToken(token);
     console.log(decoded);
     // For a valid access token
     if (!decoded.id) {
